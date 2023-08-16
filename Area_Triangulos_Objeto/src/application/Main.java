@@ -1,46 +1,61 @@
 package application;
 
+import java.util.Locale;
 import java.util.Scanner;
 import entities.Triangle;
 
 public class Main {
 
     public static void main(String[] args) {
+    	
+    	Locale.setDefault(Locale.US);
 
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
 
-        Triangle triangleX, triangleY;
+            Triangle triangleX = new Triangle();
+            Triangle triangleY = new Triangle();
 
-        triangleX = new Triangle();
-        triangleY = new Triangle();
+            System.out.println("Enter the measures of triangle X: ");
+            readTriangleDimensions(scanner, triangleX);
 
-        System.out.println("Enter the measures of triangle X: ");
-        triangleX.a = scanner.nextDouble();
-        triangleX.b = scanner.nextDouble();
-        triangleX.c = scanner.nextDouble();
+            System.out.println("Enter the measures of triangle Y: ");
+            readTriangleDimensions(scanner, triangleY);
 
-        System.out.println("Enter the measures of triangle Y: ");
-        triangleY.a = scanner.nextDouble();
-        triangleY.b = scanner.nextDouble();
-        triangleY.c = scanner.nextDouble();
+            if (isValidTriangle(triangleX) && isValidTriangle(triangleY)) {
+                double areaX = triangleX.area();
+                double areaY = triangleY.area();
 
-        double pX = (triangleX.a + triangleX.b + triangleX.c) / 2;
-        double areaX = Math.sqrt(pX * (pX - triangleX.a) * (pX - triangleX.b) * (pX - triangleX.c));
+                if (areaX > areaY) {
+                    System.out.println("Triangle X has a greater area.");
+                } else if (areaY > areaX) {
+                    System.out.println("Triangle Y has a greater area.");
+                } else {
+                    System.out.println("Both areas are equal.");
+                }
 
-        double pY = (triangleY.a + triangleY.b + triangleY.c) / 2;
-        double areaY = Math.sqrt(pY * (pY - triangleY.a) * (pY - triangleY.b) * (pY - triangleY.c));
-
-        if (areaX > areaY) {
-            System.out.println("Triangle X has a greater area.");
-        } else if (areaY > areaX) {
-            System.out.println("Triangle Y has a greater area.");
-        } else {
-            System.out.println("Both areas are equal.");
+                System.out.printf("X area: %.2f%n", areaX);
+                System.out.printf("Y area: %.2f%n", areaY);
+            } else {
+                System.out.println("Invalid triangle dimensions.");
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
+    }
 
-        System.out.printf("X area: %.2f%n", areaX);
-        System.out.printf("Y area: %.2f%n", areaY);
-
-        scanner.close();
+    private static void readTriangleDimensions(Scanner scanner, Triangle triangle) {
+        try {
+            triangle.a = scanner.nextDouble();
+            triangle.b = scanner.nextDouble();
+            triangle.c = scanner.nextDouble();
+        } catch (Exception e) {
+            System.out.println("Error reading triangle dimensions: " + e.getMessage());
+        }
+    }
+    
+    private static boolean isValidTriangle(Triangle triangle) {
+        return triangle.a + triangle.b > triangle.c &&
+               triangle.a + triangle.c > triangle.b &&
+               triangle.b + triangle.c > triangle.a;
     }
 }
