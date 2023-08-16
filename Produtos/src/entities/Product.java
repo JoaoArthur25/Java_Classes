@@ -11,15 +11,23 @@ public class Product {
 		return price * quantity;
 	}
 
-	public void addProduct(int number) {
+	public void addProduct(int quantity) {
 
-		quantity += number;
-		System.out.printf("The new total is: %d%n%n", quantity);
+		this.quantity += quantity;
 	}
 
-	public void removeProduct(int number) {
+	public void removeProduct(int quantity) {
 
-		quantity -= number;
-		System.out.printf("The new total is: %d%n%n", quantity);
+		this.quantity -= quantity;
+	}
+	
+	public String toString() {
+		return name
+				+", $"
+				+ String.format("%.2f", price)
+				+ ", "
+				+ quantity
+				+ " units, Total: $"
+				+ valueInStock();
 	}
 }
