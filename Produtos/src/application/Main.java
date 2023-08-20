@@ -28,11 +28,9 @@ public class Main {
                 String name = scanner.nextLine();
                 System.out.printf("Enter the price of %s: %n", name);
                 double price = scanner.nextDouble();
-                System.out.printf("Enter the quantity of %s in stock: %n", name);
-                int quantity = scanner.nextInt();
                 scanner.nextLine();
 
-                Product product = new Product(name, price, quantity);
+                Product product = new Product(name, price);
                 interactWithProduct(product, scanner);
 
                 products[productCount++] = product;
