@@ -7,115 +7,102 @@ import entities.Product;
 
 public class Main {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		Locale.setDefault(Locale.US);
-		Scanner scanner = new Scanner(System.in);
+        Locale.setDefault(Locale.US);
+        Scanner scanner = new Scanner(System.in);
 
-		Product firstProduct = new Product();
-		Product secondProduct = new Product();
-		int option;
-		int quantity;
+        int option;
+        Product[] products = new Product[100]; 
+        int productCount = 0;
 
-		System.out.println("Enter the name of the first product: ");
-		firstProduct.name = scanner.nextLine();
-		System.out.printf("Enter the price of %s: %n", firstProduct.name);
-		firstProduct.price = scanner.nextDouble();
-		System.out.printf("%nEnter the quantity of %s in stock: %n", firstProduct.name);
-		firstProduct.quantity = scanner.nextInt();
-		scanner.nextLine();
-		System.out.println("Enter the name of the second product: ");
-		secondProduct.name = scanner.nextLine();
-		System.out.printf("Enter the price of %s: %n", secondProduct.name);
-		secondProduct.price = scanner.nextDouble();
-		System.out.printf("Enter the quantity of %s in stock: %n", secondProduct.name);
-		secondProduct.quantity = scanner.nextInt();
-		sleep(1000);
+        do {
+            System.out.println("Choose an option: ");
+            System.out.println("1) Register product 2) See registered products 3) Exit");
+            option = scanner.nextInt();
+            scanner.nextLine();
 
-		System.out.println(firstProduct);
-		System.out.println(secondProduct);
+            if (option == 1) {
+                System.out.println();
+                System.out.println("Enter the name of the product: ");
+                String name = scanner.nextLine();
+                System.out.printf("Enter the price of %s: %n", name);
+                double price = scanner.nextDouble();
+                System.out.printf("Enter the quantity of %s in stock: %n", name);
+                int quantity = scanner.nextInt();
+                scanner.nextLine();
 
-		do {
-			System.out.println("\nWhat would you like to do with the products?\n");
-			System.out.println(
-					"1) See total value in stock. 2) Add products to stock. 3) Remove products from stock. 4) Exit.");
+                Product product = new Product(name, price, quantity);
+                interactWithProduct(product, scanner);
 
-			option = scanner.nextInt();
-			sleep(1000);
+                products[productCount++] = product;
 
-			if (option == 1) {
-				System.out.println("Choose which product's total value in stock you want to see: ");
-				System.out.printf("1) %s. 2) %s.%n", firstProduct.name, secondProduct.name);
-				option = scanner.nextInt();
-				sleep(1000);
+                System.out.println();
+            } else if (option == 2) {
+                System.out.println("Registered Products:");
+                for (int i = 0; i < productCount; i++) {
+                    Product product = products[i];
+                    System.out.println("Product: " + product.getName());
+                    System.out.println("Price: $" + product.getPrice());
+                    System.out.println("Quantity in stock: " + product.getQuantity());
+                    System.out.println();
+                }
+                sleep(1500);
+            } else if (option != 3) {
+                System.out.println("Invalid option");
+                sleep(1500);
+            }
+        } while (option != 3);
 
-				if (option == 1) {
-					System.out.printf("The total value in stock of %s is $%.2f%n%n", firstProduct.name,
-							firstProduct.valueInStock());
-					sleep(1000);
-				} else if (option == 2) {
-					System.out.printf("The total value in stock of %s is $%.2f%n%n", secondProduct.name,
-							secondProduct.valueInStock());
-					sleep(1000);
-				}
-			} else if (option == 2) {
-				System.out.println("Choose which product you want to add to stock: ");
-				System.out.printf("1) %s. 2) %s.%n", firstProduct.name, secondProduct.name);
-				option = scanner.nextInt();
-				sleep(1000);
+        System.out.println("Thank you for using our system!");
+        sleep(1500);
 
-				if (option == 1) {
-					System.out.println("Choose how much to add: ");
-					quantity = scanner.nextInt();
-					firstProduct.addProduct(quantity);
-					System.out.println(firstProduct);
-					System.out.println();
-					sleep(1000);
-				} else if (option == 2) {
-					System.out.println("Choose how much to add: ");
-					quantity = scanner.nextInt();
-					secondProduct.addProduct(quantity);
-					System.out.println(secondProduct);
-					System.out.println();
-					sleep(1000);
-				}
-			} else if (option == 3) {
-				System.out.println("Choose which product you want to remove from stock: ");
-				System.out.printf("1) %s. 2) %s.%n", firstProduct.name, secondProduct.name);
-				option = scanner.nextInt();
-				sleep(1000);
+        scanner.close();
+    }
 
-				if (option == 1) {
-					System.out.println("Choose how much to remove: ");
-					quantity = scanner.nextInt();
-					firstProduct.removeProduct(quantity);
-					System.out.println(firstProduct);
-					System.out.println();
-					sleep(1000);
-				} else if (option == 2) {
-					System.out.println("Choose how much to remove: ");
-					quantity = scanner.nextInt();
-					secondProduct.removeProduct(quantity);
-					System.out.println(secondProduct);
-					System.out.println();
-					sleep(1000);
-				}
-			} else if (option != 4) {
-				System.out.println("Invalid option");
-				sleep(1000);
-			}
-		} while (option != 4);
+    private static void interactWithProduct(Product product, Scanner scanner) {
+        int option;
+        int quantity;
 
-		System.out.println("Thank you for using our system!");
+        do {
+            System.out.println("\nWhat would you like to do with the product?\n");
+            System.out.println("1) See total value of product in stock."
+                    + " 2) Add product to stock." + " 3) Remove product from stock." + " 4) Exit");
 
-		scanner.close();
-	}
+            option = scanner.nextInt();
+            scanner.nextLine();
 
-	private static void sleep(long milliseconds) {
-		try {
-			Thread.sleep(milliseconds);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
-		}
-	}
+            if (option == 1) {
+                System.out.printf("The total value in stock of %s is $%.2f%n%n", product.getName(),
+                        product.valueInStock());
+                sleep(1500);
+
+            } else if (option == 2) {
+                System.out.println("Choose how much to add: ");
+                quantity = scanner.nextInt();
+                product.addProduct(quantity);
+                System.out.println("Product successfully added");
+                sleep(1500);
+                System.out.println();
+            } else if (option == 3) {
+                System.out.println("Choose how much to remove: ");
+                quantity = scanner.nextInt();
+                product.removeProduct(quantity);
+                System.out.println("Product successfully removed");
+                sleep(1500);
+                System.out.println();
+            } else if (option != 4) {
+                System.out.println("Invalid option");
+                sleep(1500);
+            }
+        } while (option != 4);
+    }
+
+    private static void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
