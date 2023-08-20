@@ -7,8 +7,12 @@ public class Product {
     private int quantity;
 
     public Product(String name, double price) {
-        this.name = name;
-        this.price = price;
+    	this.name = name;
+        if (price >= 0) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
     }
 
     public double valueInStock() {
@@ -21,6 +25,9 @@ public class Product {
 
     public void removeProduct(int quantity) {
         this.quantity -= quantity;
+        if (this.quantity < 0) {
+            this.quantity = 0; 
+        }
     }
 
     public String getName() {
