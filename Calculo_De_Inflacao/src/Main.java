@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
 	
-	public static double calculoInflacao(double valorAntigo, double valorAtual) {
+	public static double calcularInflacao(double valorAntigo, double valorAtual) {
 		double inflacao = (valorAtual - valorAntigo) / valorAntigo;
 		return inflacao;
 	}
@@ -24,7 +24,7 @@ public class Main {
 				System.out.println("Digite o valor atual: ");
 				double valorAtual = scanner.nextDouble();
 				
-				System.out.println("Taxa de inflacao: " + calculoInflacao(valorAntigo, valorAtual) + "%");
+				System.out.println("Taxa de inflacao: " + calcularInflacao(valorAntigo, valorAtual) + "%");
 			}
 		}
 		
