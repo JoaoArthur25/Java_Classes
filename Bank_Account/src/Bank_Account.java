@@ -8,13 +8,13 @@ public class Bank_Account {
         if (value >= 0) {
             this.balance = value;
         } else {
-            throw new IllegalArgumentException("Price cannot be negative.");
+            throw new IllegalArgumentException();
         }
     }
 	
 	public  double withdraw(double valor) {
 		if(valor > balance) {
-			throw new IllegalArgumentException("Voce nao pode sacar mais do que possui.");
+			throw new IllegalArgumentException();
 		}
 		balance -= valor;
 		return balance;
@@ -22,7 +22,7 @@ public class Bank_Account {
 	
 	public  double deposit(double valor) {
 		if(valor < 0) {
-			throw new IllegalArgumentException("Valor nao pode ser negativo.");
+			throw new IllegalArgumentException();
 		}
 		else {
 			balance += valor;

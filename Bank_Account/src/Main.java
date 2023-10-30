@@ -24,12 +24,17 @@ public class Main {
                 System.out.printf("Enter the value of the initial deposit of %s: %n", name);
                 double value = scanner.nextDouble();
                 scanner.nextLine();
-
+                
+                try {
                 Bank_Account account = new Bank_Account(value, name);
                 interactWithAccount(account, scanner);
                 accounts[accountCount++] = account;
 
                 System.out.println();
+                }
+                catch(Exception IllegalArgumentException) {
+                	System.out.println("Value cannot be negative");
+                }
             } else if (option == 2) {
                 System.out.println("Registered Accounts:");
                 for (int i = 0; i < accountCount; i++) {
